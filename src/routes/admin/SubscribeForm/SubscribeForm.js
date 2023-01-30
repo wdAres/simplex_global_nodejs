@@ -27,4 +27,15 @@ const getSubscribeForm =  (req, resp) => {
     });
 };
 
-module.exports = { postSubscribeForm , getSubscribeForm};
+// Single Data Delete
+const delSubscribeForm = async (req, resp) => {
+  const _id = req.params.id;
+  try {
+    const result = await SubscribeFormModel.findOneAndDelete({ _id });
+    resp.status(200).json({ result });
+  } catch (error) {
+    resp.status(500).json({ problem: error });
+  }
+};
+
+module.exports = { postSubscribeForm , getSubscribeForm , delSubscribeForm };

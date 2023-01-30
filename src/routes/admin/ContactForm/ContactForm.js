@@ -1,13 +1,15 @@
 const express = require("express");
-// const ContactFormModel  = require("../../../models/Forms/ContactFormModel");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const ContactFormModel = require("../../../models/Forms/ContactFormModel");
 
 const postContactForm = (req, resp) => {
-  const { firstname,lastname,email,message } = req.body;
+  const { firstname, lastname, email, message } = req.body;
   const val = new ContactFormModel({
     _id: new mongoose.Types.ObjectId(),
-    firstname,lastname,email,message
+    firstname,
+    lastname,
+    email,
+    message,
   })
     .save()
     .then((result) => {
@@ -18,7 +20,7 @@ const postContactForm = (req, resp) => {
     });
 };
 
-const getContactForm =  (req, resp) => {
+const getContactForm = (req, resp) => {
   ContactFormModel.find()
     .then((result) => {
       resp.status(200).json({ result });
@@ -28,4 +30,16 @@ const getContactForm =  (req, resp) => {
     });
 };
 
-module.exports = { postContactForm , getContactForm};
+// Single Data Delete
+const delContactForm = async (req, resp) => {
+  const _id = req.params.id;
+  try {
+    const result = await ContactFormModel.findOneAndDelete({ _id });
+    resp.status(200).json({ result });
+  } catch (error) {
+    resp.status(500).json({ problem: error });
+  }
+};
+
+
+module.exports = { postContactForm, getContactForm , delContactForm };

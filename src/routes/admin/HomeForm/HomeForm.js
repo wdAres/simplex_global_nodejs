@@ -27,4 +27,15 @@ const getHomeForm =  (req, resp) => {
     });
 };
 
-module.exports = { postHomeForm , getHomeForm};
+// Single Data Delete
+const delHomeForm = async (req, resp) => {
+  const _id = req.params.id;
+  try {
+    const result = await HomeFormModel.findOneAndDelete({ _id });
+    resp.status(200).json({ result });
+  } catch (error) {
+    resp.status(500).json({ problem: error });
+  }
+};
+
+module.exports = { postHomeForm , getHomeForm , delHomeForm};
